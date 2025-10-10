@@ -1,15 +1,21 @@
 import pytest
 
-import ProbeTrainer 
-from ProbeTrainer import *
+from TrainingRun import *
+#from TrainingRunBuilder import *
+from DatasetGenerator import *
 
-def test_create_trainer():
-    trainer = TrainingRunBuilder()
-    assert hasattr(trainer, "trainingRun")
-    assert trainer.trainingRun == None
+def test_create_trainer_builder():
+    builder = TrainingRunBuilder()
+    assert builder != None
 
 def test_trainer_builder():
-    trainer = TrainingRunBuilder()
-    assert trainer.trainingRun == None
-    trainer.BuildRun()
-    assert trainer.trainingRun != None
+    builder = TrainingRunBuilder()
+    trainer = builder.build()
+    assert trainer != None
+
+def test_activation_generator():
+    builder = ActivationDatasetGeneratorBuilder()
+    assert builder != None
+    generator = builder.build()
+    assert generator != None
+
