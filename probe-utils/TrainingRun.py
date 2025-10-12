@@ -5,7 +5,10 @@ class TrainingRun:
     def __init__(self):
         self.dataset = None
         self.model = None
+        self.init = False
     def Run(self):
+        if(not self.init):
+            self.initialize();
         for epoch in range(self.num_epochs):
             self.dataset.start_epoch()
             for step in range(self.num_steps):
