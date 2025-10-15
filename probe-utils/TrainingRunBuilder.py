@@ -47,3 +47,19 @@ class DatasetWrapper:
     def Next(self):
         return next(self.iterator)
 
+class ActivationDatasetTraintimeGenerator:
+    def __init__(self, dataset, SAELens_model_name, hooks, names):
+        #hf login
+        self.transformer = HookedSAETransformer.from_pretrained_no_processing(SAELens_model_name)
+        self.dataset = dataset
+        self.names = names
+    def start_epoch(self):
+        self.dataset.start_epoch()
+    def Next(self):
+        xb = self.dataset.Next()
+        _, cache = self.transformer.run_with_cache(
+                xb, names_filter = names, pos_slice = -1, return_cache_object=True, clear_contexts = True)
+        outs = [cache[n].squeeze(1).to(t.float32) for n in names]
+        del cache
+        return t.stack(outs, dim=-1)
+
