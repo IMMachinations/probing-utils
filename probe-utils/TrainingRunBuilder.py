@@ -1,5 +1,7 @@
 import torch as t
 from datasets import load_dataset
+from TrainingRun import *
+from sae_lens import HookedSAETransformer
 
 class TrainingRunBuilder:
     def __init__(self):
@@ -17,14 +19,18 @@ class TrainingRunBuilder:
         if not hasattr(self.dataset, 'next'):
             return False
         if not callable(getattr(obj, 'my_method')):
+            return False
     
-    def 
-        
     def build(self):
         return self.trainingRun
 
-    def use_dataset(self,hf_name, batch_size):
+    def use_basic_hf_dataset(self, hf_name, batch_size):
         self.trainingRun.dataset = DatasetWrapper(hf_name, batch_size)
+        return self
+        
+    def use_SAELens_model_dataset(self, hf_name, model_name, hooks, names, batch_size = 1):
+        self.trainingRun.dataset = ActivationDatasetTraintimeGenerator(DatasetWrapper(hf_name, batch_size), model_name, hooks, names)
+        return self
 
 
 
@@ -41,7 +47,6 @@ class DatasetWrapper:
             buf.append(ids)
             if len(buf) == bs:
                 yield torch.stack(buf, dim=0); buf.clear()
-
     def start_epoch(self):
         self.iterator = self.batch_iter(self.hf_dataset, self.batch_size)
     def Next(self):

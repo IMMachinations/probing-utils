@@ -1,11 +1,13 @@
 import torch as t
-from TrainingRun import *
+
 
 class TrainingRun:
     def __init__(self):
         self.dataset = None
         self.model = None
         self.init = False
+        self.num_epochs = 1
+        
     def Run(self):
         if(not self.init):
             self.initialize();
