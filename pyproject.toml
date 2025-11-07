@@ -11,4 +11,5 @@ dependencies = [
     "torch>=2.9.0",
 ]
 [tool.pytest.ini_options]
-testpaths = ["probe-utils.tests"]
+testpaths = ["probe-utils.tests/*"]
+python_files = ["*.py"]
