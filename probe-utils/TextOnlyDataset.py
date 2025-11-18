@@ -16,4 +16,3 @@ class TextOnlyDataset:
         self.iterator = self.batch_iter(self.hf_dataset, self.batch_size)
     def Next(self):
         return next(self.iterator)
-        
