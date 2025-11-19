@@ -19,8 +19,9 @@ class TransformerLensResidualContributors(ProbedModel):
     
     def Run(self, tokens):
         _, cache = self.tl_model.run_with_cache(tokens, names_filter = self.activations)
-        return t.stack(list(cache.values()),dim=-2)
-    
+        activations = t.stack(list(cache.values()),dim=-2)
+        del cache
+        return activations
     def on_device(self):
         return self.device
     

@@ -32,15 +32,25 @@ class TrainingRunBuilder:
             self.trainingRun.probe = self.probe
         return self
 
-    def use_optimizer(self, optim_type : string):
+    def use_optimizer(self, optimizer : torch.optim):
         if(self.probe == None):
             raise ValueError("Cannot add an optimizer without a probe to optimize")
-        if(optim_type == "sgd"):
-            self.optimizer = torch.optim.SGD(self.probe.parameters())
-            self.trainingRun.optimizer = self.optimizer
+        self.optimizer = optimizer
+        self.optimizer.param_group = []
+        self.optimizer.add_param_group({"params": self.probe.parameters()})
+        self.trainingRun.optimizer = self.optimizer
         return self
+    
     def use_loss(self, loss_fn : str):
         if(loss_fn == "mse"):
             self.loss = torch.nn.MSELoss()
             self.trainingRun.loss = self.loss
         return self
+        
+    def use_eval(self, evaluator):
+        self.evaluator = evaluator
+        self.trainRun.eval = self.evaluator
+
+    def use_logger(self, logger):
+        self.logger = logger
+        self.trainingRun.logger = self.logger
