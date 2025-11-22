@@ -30,11 +30,13 @@ class TrainingRun:
         loss = self.loss(outputs, y)
         
         self.optimizer.step()
-
-        if(self.logger is not None):
-            self.logger.log(X,y,loss,step)
+        
+        probeEval = None
         if(self.eval is not None):
-            self.eval(step)
+            probeEval = self.evaluator.evaluate(step)
+        if(self.logger is not None):
+            self.logger.log(X, y, probeEval, loss, step)
+
         return 
     
 
