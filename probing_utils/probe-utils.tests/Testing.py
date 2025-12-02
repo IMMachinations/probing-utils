@@ -1,8 +1,8 @@
 import pytest
 
-from TrainingRun import *
+from .TrainingRun import *
 #from TrainingRunBuilder import *
-from DatasetGenerator import *
+from .DatasetGenerator import *
 
 def test_create_trainer_builder():
     builder = TrainingRunBuilder()

@@ -1,8 +1,8 @@
 import torch as t
 from datasets import load_dataset
-from TrainingRun import *
-from ProbingDataset import *
-from StackedLinearProbe import *
+from .TrainingRun import *
+from .ProbingDataset import *
+from .StackedLinearProbe import *
 
 class TrainingRunBuilder:
     def __init__(self):

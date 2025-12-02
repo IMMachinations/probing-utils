@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "probing-utils"
 version = "0.1.0"
@@ -11,6 +15,9 @@ dependencies = [
     "torch>=2.9.0",
     "transformer-lens>=2.16.1",
 ]
+
+[tool.setuptools.packages.find]
+include = ["probing_utils*"]
 [tool.pytest.ini_options]
 testpaths = ["probe-utils.tests/*"]
 python_files = ["*.py"]

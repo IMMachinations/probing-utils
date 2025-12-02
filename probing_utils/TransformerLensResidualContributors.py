@@ -1,4 +1,4 @@
-from ProbedModel import *
+from .ProbedModel import *
 from transformer_lens import HookedTransformer
 import torch as t
 

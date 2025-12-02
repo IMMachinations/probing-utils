@@ -1,5 +1,5 @@
-from TransformerLensResidualContributors import *
-from ProbingDataset import *
+from .TransformerLensResidualContributors import *
+from .ProbingDataset import *
 import datasets 
 import numpy as np
 import torch

@@ -1,6 +1,6 @@
-from TransformerLensResidualContributors import *
-from ProbingDataset import *
-from ProbedModel import *
+from .TransformerLensResidualContributors import *
+from .ProbingDataset import *
+from .ProbedModel import *
 import datasets 
 import numpy as np
 import torch
