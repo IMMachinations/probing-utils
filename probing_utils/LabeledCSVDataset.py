@@ -23,10 +23,10 @@ class LabeledCSVDataset(ProbingDataset):
         self.set_iter()
 
     def InputShape(self, activation=None):
-        return self.tlmodel.ActivationShape()
+        return self.probedModel.ActivationShape()
 
     def LabelShape(self):
-        return torch.Size([len(self.tlmodel.ActivationNames()), len(self.NUMERIC_COLS)])
+        return torch.Size([len(self.probedModel.ActivationNames()), len(self.NUMERIC_COLS)])
 
     def __len__(self):
         return len(self.dataloader)

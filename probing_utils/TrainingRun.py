@@ -20,7 +20,7 @@ class TrainingRun:
             pbar = tqdm(enumerate(self.dataset), total=len(self.dataset))
             for step, (activation, label) in pbar:
                 self.SingleStep(activation, label, step, epoch)
-        return self.model
+        return self.probe
     
     def SingleStep(self, X, y, step, epoch):
 
