@@ -18,3 +18,6 @@ class ProbingDataset(ABC, Iterable):
     def __iter__(self):
         # Subclasses return an iterator here
         pass
+
+    def CleaveActivations(self, activations):
+        return activations

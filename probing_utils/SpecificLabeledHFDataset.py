@@ -30,12 +30,15 @@ class SpecificLabeledHFDataset(ProbingDataset):
 
     def set_iter(self):
         self.iterable = iter(self.dataloader)
+
     def __iter__(self):
         for x in self.iterable:
             text, label = x['text'], x['numeric_features'].to(self.device)
             activations = self.tlmodel.Run(text).to(self.device)
+            activations = self.CleaveActivations(activations)
             activation_shape = list(activations.shape)
             activation_shape[-2:] = self.LabelShape()
+             
             for _ in range(activations.ndim - label.ndim):
                 label = label.unsqueeze(0)
             label = label.expand(activation_shape)

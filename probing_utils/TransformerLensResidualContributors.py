@@ -22,6 +22,7 @@ class TransformerLensResidualContributors(ProbedModel):
         activations = t.stack(list(cache.values()),dim=-2)
         del cache
         return activations
+        
     def on_device(self):
         return self.device
     

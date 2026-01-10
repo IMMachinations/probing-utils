@@ -6,7 +6,7 @@ import numpy as np
 import torch
 
 
-class LabeledCSVDataset(ProbingDataset):
+class SectionedClassCSVDataset(ProbingDataset):
     def __init__(self, csv_path: str, numeric_cols: list, text_col: str, probedModel: ProbedModel):
         df = pd.read_csv(csv_path)
         self.dataset = df.to_dict('records')
