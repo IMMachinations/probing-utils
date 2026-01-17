@@ -1,13 +1,28 @@
+import torch
 from transformers import PreTrainedTokenizerBase
-from .LogitTarget import LogitTarget
+from jaxtyping import Int, Bool, jaxtyped
+from torch import Tensor
 
 class TokenizedInput:
-    input_string: str
-    tokenized_input: list[int]
-    tokenized_string_input: list[str]
-    tokenized_probe_targets: list[LogitTarget]
-    def __init__(self, input_string:str, tokenizer):
-        self.input_string = input_string
-        self.tokenized_string_input = tokenizer.tokenize(input_string)
-        self.tokenized_input = tokenizer.convert_tokens_to_ids(self.tokenized_string_input)
-    
+	prompts: list[list[dict[str,str]]]
+	tokenized_input = Int[Tensor, "batch sequence"]
+	probe_target_mask = Bool[Tensor, "batch sequence"]
+	tokenizer: PreTrainedTokenizerBase
+	def __init__(self, prompts: list[dict[str,str]], tokenizer: PreTrainedTokenizerBase):
+		self.tokenizer = tokenizer
+		self.prompts = prompts
+		tokenized_prompt_list = []
+		for prompt in prompts:
+			for message in prompt:
+				assert message.keys() == {"role":"", "content":""}.keys()
+		
+		outputs = self.tokenizer.apply_chat_template(prompts, tokenize=True, padding=True, return_tensors="pt",return_dict = True)		
+		
+		self.tokenized_input = outputs["input_ids"]
+		self.attention_mask = outputs["attention_mask"]
+
+	def _mask_detect_all(self):
+		self.probe_target_mask = self.attention_mask
+		return self.probe_target_mask
+	
+
