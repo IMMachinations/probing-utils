@@ -13,15 +13,15 @@ class TokenizedActivations:
 		self.hook_points = [hook_points] if isinstance(hook_points,str) else hook_points
 		device = next(model.parameters()).device
 		names_filter = lambda name: name in self.hook_points
-		token_ids = self.input.tokenized_input.to(device).unsqueeze(0)
+		#token_ids = self.input.tokenized_input.to(device).unsqueeze(0)
 		batched_activations = []
-		num_prompts = self.tokens.tokenized_input.dimension()[0]
+		num_prompts = self.tokens.tokenized_input.shape[0]
 		for i in range(0, num_prompts, batch_size):
 			with torch.no_grad():
 				_, cache = model.run_with_cache(
 					self.tokens.tokenized_input[i: min(i + batch_size, num_prompts),:],
 					names_filter=names_filter)
 				batched_activations.append(
-					torch.stack([cache[hook] for hook in self.hook_points]), dim=-2)
+					torch.stack([cache[hook] for hook in self.hook_points], dim=-2))
 				del cache
 		self.activations = torch.cat(batched_activations, dim=0)
